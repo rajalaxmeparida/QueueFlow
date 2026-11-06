@@ -72,7 +72,6 @@ function App() {
 
         <div className="login-heading">
           <p className="eyebrow">MANAGER PORTAL</p>
-          <h1>Welcome back</h1>
           <p className="login-subtitle">
             Sign in to manage your queues and keep everything moving.
           </p>
@@ -133,10 +132,7 @@ function App() {
                 Signing in...
               </>
             ) : (
-              <>
-                Sign in to your account
-                <span className="button-arrow">→</span>
-              </>
+              "Sign in to your account"
             )}
           </button>
         </form>

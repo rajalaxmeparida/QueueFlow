@@ -3,8 +3,7 @@ import "./Dashboard.css";
 import Sidebar from "./Sidebar";
 import QueueDetails from "./QueueDetails";
 import Analytics from "./Analytics";
-
-const API_URL = "http://127.0.0.1:5000";
+import { API_URL } from "./api";
 
 function Dashboard() {
   const [queues, setQueues] = useState([]);
@@ -14,6 +13,11 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [selectedQueue, setSelectedQueue] = useState(null);
   const [activePage, setActivePage] = useState("dashboard");
+
+  const [editingQueue, setEditingQueue] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editLoading, setEditLoading] = useState(false);
 
   const token = localStorage.getItem("token");
 
@@ -110,13 +114,77 @@ function Dashboard() {
 
       setQueueName("");
       setDescription("");
-      setMessage("Queue created successfully!");
 
       await fetchQueues();
+      setMessage("Queue created successfully!");
     } catch (error) {
       setMessage(error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Open edit form
+  const handleOpenEdit = (queue) => {
+    setEditingQueue(queue);
+    setEditName(queue.name);
+    setEditDescription(queue.description || "");
+    setMessage("");
+  };
+
+  // Close edit form
+  const handleCloseEdit = () => {
+    if (editLoading) return;
+
+    setEditingQueue(null);
+    setEditName("");
+    setEditDescription("");
+  };
+
+  // Update queue
+  const handleUpdateQueue = async (e) => {
+    e.preventDefault();
+
+    if (!editName.trim()) {
+      setMessage("Queue name is required.");
+      return;
+    }
+
+    setEditLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch(
+        `${API_URL}/api/queues/${editingQueue._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: editName.trim(),
+            description: editDescription.trim(),
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to update queue");
+      }
+
+      await fetchQueues();
+
+      setEditingQueue(null);
+      setEditName("");
+      setEditDescription("");
+      setMessage("Queue updated successfully!");
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setEditLoading(false);
     }
   };
 
@@ -301,6 +369,16 @@ function Dashboard() {
                         </span>
 
                         <button
+                          type="button"
+                          className="edit-queue-button"
+                          onClick={() => handleOpenEdit(queue)}
+                          title="Edit queue"
+                          aria-label={`Edit ${queue.name}`}
+                        >
+                          ✎
+                        </button>
+
+                        <button
                           className="manage-queue-button"
                           onClick={() => handleSelectQueue(queue)}
                           disabled={!queue.isActive}
@@ -318,6 +396,147 @@ function Dashboard() {
           {activePage === "analytics" && <Analytics />}
         </main>
       </div>
+
+      {/* Edit Queue Modal */}
+      {editingQueue && (
+        <div
+          onClick={handleCloseEdit}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(15, 23, 42, 0.55)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "20px",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "100%",
+              maxWidth: "450px",
+              background: "#ffffff",
+              borderRadius: "16px",
+              padding: "30px",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.18)",
+            }}
+          >
+            <h2 style={{ margin: "0 0 8px", color: "#17233c" }}>Edit Queue</h2>
+
+            <p style={{ margin: "0 0 24px", color: "#788399" }}>
+              Update your queue name and description.
+            </p>
+
+            <form
+              onSubmit={handleUpdateQueue}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+              }}
+            >
+              <label
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                  color: "#34415a",
+                  fontWeight: 600,
+                }}
+              >
+                Queue Name
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  placeholder="Enter queue name"
+                  maxLength={100}
+                  required
+                  autoFocus
+                  style={{
+                    width: "100%",
+                    padding: "13px",
+                    border: "1px solid #dfe5ef",
+                    borderRadius: "8px",
+                    fontSize: "15px",
+                    boxSizing: "border-box",
+                  }}
+                />
+              </label>
+
+              <label
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                  color: "#34415a",
+                  fontWeight: 600,
+                }}
+              >
+                Description
+                <input
+                  type="text"
+                  value={editDescription}
+                  onChange={(e) => setEditDescription(e.target.value)}
+                  placeholder="Enter queue description"
+                  style={{
+                    width: "100%",
+                    padding: "13px",
+                    border: "1px solid #dfe5ef",
+                    borderRadius: "8px",
+                    fontSize: "15px",
+                    boxSizing: "border-box",
+                  }}
+                />
+              </label>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: "10px",
+                  marginTop: "8px",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={handleCloseEdit}
+                  disabled={editLoading}
+                  style={{
+                    padding: "11px 18px",
+                    border: "1px solid #dfe5ef",
+                    borderRadius: "8px",
+                    background: "#ffffff",
+                    color: "#34415a",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={editLoading || !editName.trim()}
+                  style={{
+                    padding: "11px 20px",
+                    border: "none",
+                    borderRadius: "8px",
+                    background: "#315fce",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    cursor: editLoading ? "not-allowed" : "pointer",
+                    opacity: editLoading ? 0.7 : 1,
+                  }}
+                >
+                  {editLoading ? "Saving..." : "Save Changes"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

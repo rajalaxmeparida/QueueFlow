@@ -1,5 +1,9 @@
 import express from "express";
-import { createQueue, getQueues } from "../controllers/queueController.js";
+import {
+  createQueue,
+  getQueues,
+  updateQueue,
+} from "../controllers/queueController.js";
 
 const router = express.Router();
 
@@ -8,5 +12,8 @@ router.post("/", createQueue);
 
 // Get all queues
 router.get("/", getQueues);
+
+// Update a queue
+router.patch("/:queueId", updateQueue);
 
 export default router;

@@ -51,3 +51,62 @@ export const getQueues = async (req, res) => {
     });
   }
 };
+
+// Update an existing queue
+export const updateQueue = async (req, res) => {
+  try {
+    const { name, description } = req.body;
+    const updates = {};
+
+    if (name !== undefined) {
+      if (typeof name !== "string" || !name.trim()) {
+        return res.status(400).json({
+          message: "Queue name cannot be empty",
+        });
+      }
+
+      updates.name = name.trim();
+    }
+
+    if (description !== undefined) {
+      if (typeof description !== "string") {
+        return res.status(400).json({
+          message: "Invalid queue description",
+        });
+      }
+
+      updates.description = description.trim();
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        message: "No valid updates provided",
+      });
+    }
+
+    const updatedQueue = await Queue.findOneAndUpdate(
+      {
+        _id: req.params.queueId,
+        manager: req.managerId,
+      },
+      { $set: updates },
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedQueue) {
+      return res.status(404).json({
+        message: "Queue not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Queue updated successfully",
+      queue: updatedQueue,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to update queue",
+      error: error.message,
+    });
+  }
+};

@@ -141,7 +141,7 @@
   font-size: 12px;
 }
 
-/* Manage Queue button */
+/* Original queue buttons */
 .queue-card > button {
   background: #263b80;
   color: white;
@@ -263,6 +263,7 @@
   font-size: 14px;
 }
 
+/* Dashboard and queue action buttons */
 .dashboard-welcome button,
 .dashboard-section form button,
 .manage-queue-button {
@@ -424,5 +425,59 @@
 
   .queue-card > button {
     width: 100%;
+  }
+}
+
+/* ---------- Queue action buttons ---------- */
+
+.queue-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Small blue pencil icon without a box */
+.queue-card .edit-queue-button {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  margin: 0 8px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  color: #315fce !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.queue-card .edit-queue-button:hover {
+  background: transparent !important;
+  color: #244eaf !important;
+  transform: scale(1.1);
+}
+
+/* Manage Queue button */
+.queue-card .manage-queue-button,
+.dashboard-content .manage-queue-button {
+  background: #315fce !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.queue-card .manage-queue-button:hover,
+.dashboard-content .manage-queue-button:hover {
+  background: #244eaf !important;
+}
+
+@media (max-width: 600px) {
+  .queue-actions {
+    gap: 8px;
   }
 }
