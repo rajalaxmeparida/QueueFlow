@@ -1,0 +1,344 @@
+/* ---------- Global queue layout ---------- */
+
+.queue-details,
+.queue-details * {
+  box-sizing: border-box;
+}
+
+.queue-details {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #f5f7fc;
+  color: #172033;
+  overflow-x: hidden;
+}
+
+/* ---------- Header ---------- */
+
+.queue-details-header {
+  width: 100%;
+  min-height: 76px;
+  padding: 16px clamp(16px, 5%, 70px);
+  background: #263b80;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.queue-details-header h1 {
+  min-width: 0;
+  font-size: clamp(19px, 2.5vw, 25px);
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.queue-details-header button {
+  flex-shrink: 0;
+  background: white;
+  color: #263b80;
+  border: none;
+  border-radius: 7px;
+  padding: 11px 16px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.queue-details-header button:hover {
+  background: #edf1fb;
+}
+
+/* ---------- Main content ---------- */
+
+.queue-details-main {
+  width: 100%;
+  max-width: 1050px;
+  margin: 35px auto;
+  padding: 0 24px;
+}
+
+/* ---------- Panels ---------- */
+
+.queue-panel {
+  width: 100%;
+  min-width: 0;
+  background: white;
+  padding: 26px;
+  border: 1px solid #e9edf5;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 18px rgba(31, 48, 82, 0.04);
+}
+
+.queue-panel h2 {
+  color: #263b80;
+  font-size: 19px;
+  margin-bottom: 20px;
+}
+
+/* ---------- Generate token form ---------- */
+
+.queue-panel form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  width: 100%;
+}
+
+.queue-panel form input {
+  width: 100%;
+  min-width: 0;
+  height: 47px;
+  padding: 0 14px;
+  border: 1px solid #dce2ed;
+  border-radius: 7px;
+  font-size: 14px;
+  outline: none;
+}
+
+.queue-panel form input:focus {
+  border-color: #4773db;
+  box-shadow: 0 0 0 3px rgba(71, 115, 219, 0.1);
+}
+
+.queue-panel form button {
+  min-height: 47px;
+  min-width: 155px;
+  padding: 11px 20px;
+  background: #315fce;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ---------- General buttons ---------- */
+
+.queue-panel button {
+  background: #315fce;
+  color: white;
+  border: none;
+  padding: 11px 17px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+.queue-panel button:hover:not(:disabled) {
+  background: #244eaf;
+}
+
+.queue-panel button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- Currently serving ---------- */
+
+.serving-panel {
+  text-align: center;
+  padding: 34px 24px;
+  background: linear-gradient(135deg, #ffffff, #f5f8ff);
+}
+
+.serving-panel h2 {
+  margin-bottom: 20px;
+}
+
+.serving-panel h3 {
+  font-size: clamp(26px, 5vw, 36px);
+  color: #263b80;
+  margin-bottom: 8px;
+}
+
+.serving-panel p {
+  color: #68748b;
+  margin-bottom: 18px;
+}
+
+.serving-panel button {
+  margin: 5px;
+}
+
+/* ---------- Waiting tokens ---------- */
+
+.token-list {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+
+.token-card {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #e5e9f1;
+  border-radius: 9px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  background: #ffffff;
+}
+
+.token-card h3 {
+  color: #263b80;
+  font-size: 17px;
+  margin-bottom: 6px;
+}
+
+.token-card p {
+  color: #34415a;
+  font-size: 14px;
+  margin-bottom: 5px;
+  overflow-wrap: anywhere;
+}
+
+.token-card small {
+  color: #8992a3;
+  font-size: 12px;
+}
+
+/* ---------- Token actions ---------- */
+
+.token-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.token-actions button {
+  min-width: 39px;
+  min-height: 38px;
+  padding: 8px 12px;
+}
+
+/* ---------- Messages ---------- */
+
+.queue-message {
+  margin-top: 15px;
+  color: #315fce;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 768px) {
+  .queue-details-main {
+    margin: 25px auto;
+    padding: 0 18px;
+  }
+
+  .queue-panel {
+    padding: 22px;
+  }
+
+  .token-card {
+    align-items: flex-start;
+  }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+  .queue-details-header {
+    min-height: auto;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .queue-details-header button {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .queue-details-header h1 {
+    font-size: 18px;
+  }
+
+  .queue-details-main {
+    margin: 20px auto;
+    padding: 0 14px;
+  }
+
+  .queue-panel {
+    padding: 20px 16px;
+    margin-bottom: 17px;
+    border-radius: 10px;
+  }
+
+  .queue-panel h2 {
+    font-size: 17px;
+  }
+
+  .queue-panel form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .queue-panel form button {
+    width: 100%;
+  }
+
+  .serving-panel {
+    padding: 27px 15px;
+  }
+
+  .token-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .token-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    width: 100%;
+  }
+
+  .token-actions button {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 360px) {
+  .queue-details-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .queue-details-header h1 {
+    text-align: left;
+  }
+
+  .queue-panel {
+    padding: 17px 13px;
+  }
+
+  .token-actions {
+    gap: 6px;
+  }
+
+  .token-actions button {
+    padding: 9px 5px;
+    font-size: 12px;
+  }
+}

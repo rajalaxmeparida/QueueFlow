@@ -53,6 +53,15 @@ const tokenSchema = new mongoose.Schema(
 // Prevent duplicate token numbers within the same queue
 tokenSchema.index({ queue: 1, tokenNumber: 1 }, { unique: true });
 
+// Only one token can be SERVING in each queue
+tokenSchema.index(
+  { queue: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { status: "SERVING" },
+  },
+);
+
 const Token = mongoose.model("Token", tokenSchema);
 
 export default Token;

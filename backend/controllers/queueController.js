@@ -14,35 +14,38 @@ export const createQueue = async (req, res) => {
     const newQueue = new Queue({
       name: name.trim(),
       description: description || "",
+      manager: req.managerId,
     });
 
     const savedQueue = await newQueue.save();
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Queue created successfully",
       queue: savedQueue,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Failed to create queue",
       error: error.message,
     });
   }
 };
 
-// Get all queues
+// Get queues belonging to the logged-in manager
 export const getQueues = async (req, res) => {
   try {
-    const queues = await Queue.find().sort({
+    const queues = await Queue.find({
+      manager: req.managerId,
+    }).sort({
       createdAt: -1,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       count: queues.length,
       queues,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Failed to fetch queues",
       error: error.message,
     });

@@ -14,14 +14,23 @@ const queueSchema = new mongoose.Schema(
       trim: true,
     },
 
+    manager: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Manager",
+      required: true,
+    },
+
     isActive: {
       type: Boolean,
       default: true,
     },
+
+    lastTokenNumber: {
+      type: Number,
+      default: 0,
+    },
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true },
 );
 
 const Queue = mongoose.model("Queue", queueSchema);
