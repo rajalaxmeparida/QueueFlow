@@ -1,11 +1,17 @@
 import { useState } from "react";
 import "./App.css";
 import Dashboard from "./Dashboard";
+import { API_URL } from "./api";
 
 function App() {
+  const [isSignup, setIsSignup] = useState(false);
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("error");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -17,42 +23,58 @@ function App() {
     }
   });
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/auth/login", {
+      const endpoint = isSignup ? "register" : "login";
+
+      const body = isSignup
+        ? { name: name.trim(), email: email.trim(), password }
+        : { email: email.trim(), password };
+
+      const response = await fetch(`${API_URL}/api/auth/${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: email.trim(),
-          password,
-        }),
+        body: JSON.stringify(body),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Unable to sign in. Please try again.");
+        throw new Error(data.message || "Something went wrong.");
       }
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("manager", JSON.stringify(data.manager));
-
-      setLoggedIn(true);
+      if (isSignup) {
+        setIsSignup(false);
+        setPassword("");
+        setMessageType("success");
+        setMessage("Account created successfully! Please sign in.");
+      } else {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("manager", JSON.stringify(data.manager));
+        setLoggedIn(true);
+      }
     } catch (error) {
+      setMessageType("error");
       setMessage(
         error.message === "Failed to fetch"
-          ? "Unable to connect to the server. Please check that the backend is running."
+          ? "Unable to connect to the server. Please try again."
           : error.message,
       );
     } finally {
       setLoading(false);
     }
+  };
+
+  const switchMode = () => {
+    setIsSignup(!isSignup);
+    setMessage("");
+    setPassword("");
   };
 
   if (loggedIn) {
@@ -71,13 +93,34 @@ function App() {
         </div>
 
         <div className="login-heading">
-          <p className="eyebrow">MANAGER PORTAL</p>
+          <p className="eyebrow">
+            {isSignup ? "CREATE ACCOUNT" : "MANAGER PORTAL"}
+          </p>
+
           <p className="login-subtitle">
-            Sign in to manage your queues and keep everything moving.
+            {isSignup
+              ? "Create your account to start managing queues."
+              : "Sign in to manage your queues and keep everything moving."}
           </p>
         </div>
 
-        <form onSubmit={handleLogin} className="login-form">
+        <form onSubmit={handleSubmit} className="login-form">
+          {isSignup && (
+            <div className="form-field">
+              <label htmlFor="name">Full name</label>
+              <input
+                id="name"
+                type="text"
+                placeholder="Enter your full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+                maxLength={80}
+                required
+              />
+            </div>
+          )}
+
           <div className="form-field">
             <label htmlFor="email">Email address</label>
             <input
@@ -86,7 +129,7 @@ function App() {
               placeholder="name@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              autoComplete="username"
+              autoComplete="email"
               required
             />
           </div>
@@ -100,10 +143,15 @@ function App() {
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
+                placeholder={
+                  isSignup
+                    ? "Create a password (min. 8 characters)"
+                    : "Enter your password"
+                }
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
+                autoComplete={isSignup ? "new-password" : "current-password"}
+                minLength={isSignup ? 8 : undefined}
                 required
               />
 
@@ -119,8 +167,13 @@ function App() {
           </div>
 
           {message && (
-            <div className="login-error" role="alert">
-              <span className="error-icon">!</span>
+            <div
+              className={
+                messageType === "success" ? "login-success" : "login-error"
+              }
+              role="alert"
+            >
+              {messageType === "error" && <span className="error-icon">!</span>}
               {message}
             </div>
           )}
@@ -129,13 +182,23 @@ function App() {
             {loading ? (
               <>
                 <span className="button-spinner"></span>
-                Signing in...
+                {isSignup ? "Creating account..." : "Signing in..."}
               </>
+            ) : isSignup ? (
+              "Create Account"
             ) : (
               "Sign in to your account"
             )}
           </button>
         </form>
+
+        <div className="auth-switch">
+          {isSignup ? "Already have an account?" : "Don't have an account?"}
+
+          <button type="button" onClick={switchMode}>
+            {isSignup ? "Sign In" : "Sign Up"}
+          </button>
+        </div>
 
         <div className="login-footer">
           <span className="footer-line"></span>

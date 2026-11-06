@@ -394,3 +394,39 @@ body {
     font-size: 9px;
   }
 }
+/* ---------- Login / Signup switch ---------- */
+
+.auth-switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 22px;
+  color: #788399;
+  font-size: 13px;
+}
+
+.auth-switch button {
+  border: none;
+  background: transparent;
+  color: #315fce;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-switch button:hover {
+  color: #244eaf;
+  text-decoration: underline;
+}
+
+/* ---------- Registration success ---------- */
+
+.login-success {
+  padding: 12px;
+  border: 1px solid #b7e4c7;
+  border-radius: 8px;
+  background: #f0fff4;
+  color: #18834b;
+  font-size: 13px;
+  line-height: 1.5;
+}
