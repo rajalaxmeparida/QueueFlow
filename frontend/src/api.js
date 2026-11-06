@@ -1,5 +1,3 @@
-const API_URL = (
-  import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`
-).replace(/\/$/, "");
+const API_URL = "https://queueflow-backend-8a5w.onrender.com";
 
 export { API_URL };
