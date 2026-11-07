@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import "./QueueDetails.css";
-
-const API_URL = "http://127.0.0.1:5000";
+import { API_URL } from "./api";
 
 function QueueDetails({ queue, onBack }) {
   const [tokens, setTokens] = useState([]);

@@ -154,15 +154,39 @@
     padding: 14px 16px;
     border-right: none;
     border-bottom: 1px solid #e8ecf3;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   .sidebar-brand {
     margin-bottom: 15px;
   }
 
-  .sidebar-section-label,
-  .sidebar-bottom {
+  .sidebar-section-label {
     display: none;
+  }
+
+  .sidebar-bottom {
+    display: flex !important;
+    width: 100%;
+    margin-top: 14px;
+    justify-content: flex-end;
+  }
+
+  .sidebar-manager {
+    display: none;
+  }
+
+  .sidebar-logout {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-height: 42px;
+    padding: 10px 18px;
+    background: #fff0f0;
+    color: #c83d3d;
+    border-radius: 8px;
   }
 
   .sidebar-navigation {
