@@ -56,6 +56,25 @@ QueueFlow/
 └── README.md
 ```
 
+
+## 📸 Application Screenshots
+
+### 1. Manager Login
+![QueueFlow Login](screenshots/login.png)
+
+### 2. Manager Registration
+![QueueFlow Sign Up](screenshots/signup.png)
+
+### 3. Dashboard
+![QueueFlow Dashboard](screenshots/dashboard.png)
+
+### 4. Queue Management
+![QueueFlow Queue Details](screenshots/queue-details.png)
+
+### 5. Analytics Dashboard
+![QueueFlow Analytics](screenshots/analytics.png)
+
+
 ## Installation and Setup
 
 ### Prerequisites
