@@ -187,7 +187,7 @@ function App() {
             ) : isSignup ? (
               "Create Account"
             ) : (
-              "Sign in to your account"
+              "Login in to your account"
             )}
           </button>
         </form>
