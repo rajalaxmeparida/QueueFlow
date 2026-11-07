@@ -60,19 +60,19 @@ QueueFlow/
 ## 📸 Application Screenshots
 
 ### 1. Manager Login
-![QueueFlow Login](screenshots/login.png)
+![QueueFlow Login](Screenshots/login.png)
 
 ### 2. Manager Registration
-![QueueFlow Sign Up](screenshots/signup.png)
+![QueueFlow Sign Up](Screenshots/signup.png)
 
 ### 3. Dashboard
-![QueueFlow Dashboard](screenshots/dashboard.png)
+![QueueFlow Dashboard](Screenshots/dashboard.png)
 
 ### 4. Queue Management
-![QueueFlow Queue Details](screenshots/queue-details.png)
+![QueueFlow Queue Details](Screenshots/queue-details.png)
 
 ### 5. Analytics Dashboard
-![QueueFlow Analytics](screenshots/analytics.png)
+![QueueFlow Analytics](Screenshots/analytics.png)
 
 
 ## Installation and Setup
