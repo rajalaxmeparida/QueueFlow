@@ -75,66 +75,6 @@ QueueFlow/
 ![QueueFlow Analytics](Screenshots/analytics.png)
 
 
-## Installation and Setup
-
-### Prerequisites
-
-Make sure you have installed:
-
-- Node.js and npm
-- MongoDB Atlas account or a local MongoDB instance
-- Git
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/rajalaxmeparida/QueueFlow.git
-cd QueueFlow
-```
-
-### 2. Set Up the Backend
-
-```bash
-cd backend
-npm install
-```
-
-Create a `.env` file inside the backend folder:
-
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_long_random_secret
-```
-
-Replace the placeholder values with your own MongoDB connection string and a secure JWT secret.
-
-Start the backend:
-
-```bash
-npm run dev
-```
-
-The backend will run on:
-
-`http://localhost:5000`
-
-### 3. Set Up the Frontend
-
-Open a second terminal:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-The Vite development server will provide a local URL, usually:
-
-`http://localhost:5173`
-
-Open the URL in your browser to use QueueFlow.
-
 ## API Overview
 
 | Method | Endpoint                               | Description                |
